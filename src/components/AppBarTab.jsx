@@ -4,7 +4,7 @@ import { View, Pressable, Text } from 'react-native';
 const AppBarTab = ({ text }) => {
   return <View>
             <Pressable>
-                <Text style={{ color: 'white', fontSize: 20, fontWeight: '700'}}>{text}</Text>
+                <Text style={{ color: 'white', fontSize: 24, fontWeight: '700', padding: 10}}>{text}</Text>
             </Pressable>
         </View>;
 };

@@ -7,13 +7,11 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
     display: 'flex',
-    
     backgroundColor: '#24292e'
   },
   tabItem: {
       flexGrow: 0,
       alignItems: 'flex-end'
-
   }
 });
 

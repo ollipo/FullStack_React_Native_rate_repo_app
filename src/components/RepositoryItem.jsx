@@ -1,18 +1,30 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+
+import theme from '../theme';
+import Avatar from './Avatar';
+import RepoInfo from './RepoInfo';
+import RepoStats from './RepoStats';
 
 
 const RepositoryList = ({ item }) => {
   return (
-    <View>
-        <Text>Full name: {item.fullName}</Text>
-        <Text>Description: {item.description}</Text>
-        <Text>Language: {item.language}</Text>
-        <Text>Starts: {item.stargazersCount}</Text>
-        <Text>Forks: {item.forksCount}</Text>
-        <Text>Reviews: {item.reviewCount}</Text>
-        <Text>Rating: {item.ratingAverage}</Text>
+    <View style={theme.container}>
+      <View style={theme.repoItem}>
+        <View style={theme.avatarAndRepoInfo}>
+          <View>
+            <Avatar source={item.ownerAvatarUrl} />
+          </View>
+          <View>
+            <RepoInfo item={item} />
+          </View>
+        </View>
+        <View>
+          <RepoStats item={item} /> 
+        </View> 
+      </View>
     </View>
+    
   );
 };
 
