@@ -1,9 +1,10 @@
+import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 
 const theme = {
     container: {
       paddingTop: Constants.statusBarHeight,
-      backgroundColor: '#e1e4e8'
+      backgroundColor: '#e1e4e8',
     },
     tabItem: {
       flexGrow: 0,
@@ -24,9 +25,11 @@ const theme = {
       body: 14,
       subheading: 16,
     },
-    fonts: {
-      main: 'System',
-    },
+    fonts: Platform.select({
+      android: 'Roboto',
+      ios: 'Arial',
+      default: 'System'
+    }),
     fontWeights: {
       normal: '400',
       bold: '700',
