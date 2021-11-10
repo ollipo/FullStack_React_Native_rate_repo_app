@@ -7,7 +7,7 @@ const AppBarTab = ({ text }) => {
   return <View>
             <Pressable>
               <Link to={`/${text}`}>
-                <Text style={{ color: 'white', fontSize: 24, fontWeight: '700', padding: 10}}>
+                <Text style={{ color: 'white', fontSize: 14, fontWeight: '500', padding: 10}}>
                   {text}
                 </Text>
               </Link>

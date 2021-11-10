@@ -21,7 +21,7 @@ const AppBar = () => {
       <View style={styles.container}>
         <ScrollView horizontal>
           <AppBarTab text='Repositories' style={styles.tabItem}/>
-          <AppBarTab text='Sign In' style={styles.tabItem}/>
+          <AppBarTab text='Sign in' style={styles.tabItem}/>
         </ScrollView>
       </View>
     
