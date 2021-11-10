@@ -7,7 +7,8 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
     display: 'flex',
-    backgroundColor: '#24292e'
+    backgroundColor: '#24292e',
+    flexDirection: 'row'
   },
   tabItem: {
       flexGrow: 0,
@@ -17,9 +18,13 @@ const styles = StyleSheet.create({
 
 const AppBar = () => {
   return (
-    <View style={styles.container}>
-        <AppBarTab text='Repositories' style={styles.tabItem}/>
+    <View>
+<View style={styles.container}>
+      <AppBarTab text='Repositories' style={styles.tabItem}/>
+      <AppBarTab text='Sign In' style={styles.tabItem}/>
     </View>
+    </View>
+    
   );
 };
 
