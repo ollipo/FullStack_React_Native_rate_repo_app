@@ -14,7 +14,7 @@ const Main = () => {
         <Route exact path="/">
           <RepositoryList />
         </Route>
-        <Route path="/Sign in">
+        <Route exact path="/signIn">
           <SignIn />
         </Route>
         <Redirect to="/" />

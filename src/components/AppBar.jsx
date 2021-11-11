@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import AppBarTab from './AppBarTab';
+import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,8 +21,8 @@ const AppBar = () => {
   return (
       <View style={styles.container}>
         <ScrollView horizontal>
-          <AppBarTab text='Repositories' style={styles.tabItem}/>
-          <AppBarTab text='Sign in' style={styles.tabItem}/>
+          <Link to='/' style={styles.tabItem} component={AppBarTab}>Repositories</Link>
+          <Link to='/signIn' style={styles.tabItem} component={AppBarTab}>Sign in</Link>
         </ScrollView>
       </View>
     

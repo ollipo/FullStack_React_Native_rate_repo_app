@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Pressable, StyleSheet } from 'react-native';
 import FormikTextInput from './FormikTextInput';
-import { Formik, useField } from 'formik';
+import { Formik } from 'formik';
 import * as yup from 'yup';
 
 import Text from './Text';
@@ -28,9 +28,6 @@ const initialValues = {
 };
 
 const SignInForm = ({ onSubmit }) => {
-  const [nameField, nameMeta, nameHelpers] = useField('name');
-  const [passwordField, passwordMeta, passwordHelpers] = useField('password');
-
   return (
     <View>
       <FormikTextInput name="name" placeholder="Username"/>

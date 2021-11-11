@@ -7,7 +7,7 @@ import RepoInfo from './RepoInfo';
 import RepoStats from './RepoStats';
 
 
-const RepositoryList = ({ item }) => {
+const RepositoryItem = ({ item }) => {
   return (
     <View style={theme.container}>
       <View style={theme.repoItem}>
@@ -28,4 +28,4 @@ const RepositoryList = ({ item }) => {
   );
 };
 
-export default RepositoryList;
+export default RepositoryItem;

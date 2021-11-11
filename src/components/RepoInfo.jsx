@@ -10,7 +10,7 @@ const RepoInfo = ({ item }) => {
         <View style={theme.repoInfo}>
             <Text fontWeight='bold'>{item.fullName}</Text>
             <Text fontSize={theme.fontSizes.body}>{item.description}</Text>
-            <Text style={{overflow: 'hidden', backgroundColor: theme.colors.primary, color: 'white', alignSelf: 'flex-start', borderRadius: 5, padding: 4}}>
+            <Text style={{color: 'white', backgroundColor: theme.colors.primary, alignSelf: 'flex-start', borderRadius: 5, padding: 4}}>
               {item.language}
             </Text>
         </View>
