@@ -6,6 +6,7 @@ import * as yup from 'yup';
 
 import Text from './Text';
 import theme from '../theme';
+import useSignIn from '../hooks/useSignIn';
 
 const styles = StyleSheet.create({
   textField: {
@@ -23,14 +24,14 @@ const styles = StyleSheet.create({
 });
 
 const initialValues = {
-  name: '',
+  username: '',
   password: '',
 };
 
 const SignInForm = ({ onSubmit }) => {
   return (
     <View>
-      <FormikTextInput name="name" placeholder="Username"/>
+      <FormikTextInput name="username" placeholder="Username"/>
       <FormikTextInput secureTextEntry name="password" placeholder="Password"/>
       <Pressable onPress={onSubmit}>
         <Text style={styles.textField}>
@@ -42,7 +43,7 @@ const SignInForm = ({ onSubmit }) => {
 };
 
 const validationSchema = yup.object().shape({
-  name: yup
+  username: yup
     .string()
     .required('Username is required'),
   password: yup
@@ -51,8 +52,16 @@ const validationSchema = yup.object().shape({
 });
 
 const SignIn = () => {
-  const onSubmit = values => {
-    console.log(values);
+  const [signIn] = useSignIn();
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+    try {
+      const { data } = await signIn({ username, password });
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
