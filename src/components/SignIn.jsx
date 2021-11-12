@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import Text from './Text';
 import theme from '../theme';
 import useSignIn from '../hooks/useSignIn';
+import AuthStorage from '../utils/authStorage';
 
 const styles = StyleSheet.create({
   textField: {
@@ -58,7 +59,12 @@ const SignIn = () => {
     const { username, password } = values;
     try {
       const { data } = await signIn({ username, password });
-      console.log(data);
+      const userStorageToken = new AuthStorage(`${username}`);
+      await userStorageToken.setAccessToken(data);
+      const userToken = await userStorageToken.getAccessToken();
+      console.log(userToken);
+      const tokenRemoved = await userStorageToken.removeAccessToken();
+      console.log(tokenRemoved);
     } catch (e) {
       console.log(e);
     }
