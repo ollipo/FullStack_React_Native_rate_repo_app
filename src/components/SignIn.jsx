@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-native';
 import useSignIn from '../hooks/useSignIn';
 import useAuthStorage from '../hooks/useAuthStorage';
 import { useApolloClient } from '@apollo/client';
-import { SignInForm } from './SignInForm';
+import SignInForm from './SignInForm';
 
 
 

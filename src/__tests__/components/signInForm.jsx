@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { Formik } from 'formik';
 
-import SignInForm from "../../components/SignInForm";
+import SignInForm from '../../components/SignInForm';
 
 describe('SignIn', () => {
     it('calls onSubmit function with correct arguments when a valid form is submitted', async () => {
