@@ -3,11 +3,14 @@ import { View, Pressable, StyleSheet } from 'react-native';
 import FormikTextInput from './FormikTextInput';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { useHistory } from 'react-router-native';
 
 import Text from './Text';
 import theme from '../theme';
 import useSignIn from '../hooks/useSignIn';
 import AuthStorage from '../utils/authStorage';
+import useAuthStorage from '../hooks/useAuthStorage';
+import { useApolloClient } from '@apollo/client';
 
 const styles = StyleSheet.create({
   textField: {
@@ -54,6 +57,9 @@ const validationSchema = yup.object().shape({
 
 const SignIn = () => {
   const [signIn] = useSignIn();
+  const history = useHistory();
+  const authStorage = useAuthStorage();
+  const apolloClient = useApolloClient();
 
   const onSubmit = async (values) => {
     const { username, password } = values;
@@ -63,8 +69,14 @@ const SignIn = () => {
       await userStorageToken.setAccessToken(data);
       const userToken = await userStorageToken.getAccessToken();
       console.log(userToken);
-      const tokenRemoved = await userStorageToken.removeAccessToken();
-      console.log(tokenRemoved);
+      await authStorage.setAccessToken(/* access token from the data */);
+      apolloClient.resetStore();
+      //const tokenRemoved = await userStorageToken.removeAccessToken();
+      console.log('history: ', history);
+        
+      history.push("/");
+      
+      //console.log(tokenRemoved);
     } catch (e) {
       console.log(e);
     }
