@@ -8,9 +8,9 @@ import theme from '../theme';
 const RepoInfo = ({ item }) => {
   return (
         <View style={theme.repoInfo}>
-            <Text fontWeight='bold'>{item.fullName}</Text>
-            <Text fontSize={theme.fontSizes.body}>{item.description}</Text>
-            <Text style={{color: 'white', backgroundColor: theme.colors.primary, alignSelf: 'flex-start', borderRadius: 5, padding: 4}}>
+            <Text testID="fullName" fontWeight='bold'>{item.fullName}</Text>
+            <Text testID="description" fontSize={theme.fontSizes.body}>{item.description}</Text>
+            <Text testID="language" style={{color: 'white', backgroundColor: theme.colors.primary, alignSelf: 'flex-start', borderRadius: 5, padding: 4}}>
               {item.language}
             </Text>
         </View>

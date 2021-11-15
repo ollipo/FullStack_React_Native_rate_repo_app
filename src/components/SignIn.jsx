@@ -8,7 +8,6 @@ import { useHistory } from 'react-router-native';
 import Text from './Text';
 import theme from '../theme';
 import useSignIn from '../hooks/useSignIn';
-import AuthStorage from '../utils/authStorage';
 import useAuthStorage from '../hooks/useAuthStorage';
 import { useApolloClient } from '@apollo/client';
 
@@ -65,14 +64,9 @@ const SignIn = () => {
     const { username, password } = values;
     try {
       const { data } = await signIn({ username, password });
-      const userStorageToken = new AuthStorage(`${username}`);
-      await userStorageToken.setAccessToken(data);
-      const userToken = await userStorageToken.getAccessToken();
-      console.log(userToken);
-      await authStorage.setAccessToken(/* access token from the data */);
+      await authStorage.setAccessToken(data.authorize.accessToken);
       apolloClient.resetStore();
-      //const tokenRemoved = await userStorageToken.removeAccessToken();
-      console.log('history: ', history);
+      console.log('token: ', await authStorage.getAccessToken());
         
       history.push("/");
       

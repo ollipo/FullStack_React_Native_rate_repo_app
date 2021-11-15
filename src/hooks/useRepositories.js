@@ -9,7 +9,7 @@ const useRepositories = () => {
     });
 
   const fetchRepositories = async () => {
-    setRepositories(data);
+    setRepositories(data.repositories);
   };
 
   useEffect(() => {

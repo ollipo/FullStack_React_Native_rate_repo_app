@@ -15,19 +15,19 @@ const RepoStats = ({ item }) => {
   return (
         <View style={theme.repoStats}>
             <View>
-                <Text fontWeight='bold'>{count(item.stargazersCount)}</Text>
+                <Text testID="stars" fontWeight='bold'>{count(item.stargazersCount)}</Text>
                 <Text>Stars</Text>
             </View>
             <View>
-                <Text fontWeight='bold'>{count(item.forksCount)}</Text>
+                <Text testID="forks" fontWeight='bold'>{count(item.forksCount)}</Text>
                 <Text>Forks</Text>
             </View>
             <View>
-                <Text fontWeight='bold'>{count(item.reviewCount)}</Text>
+                <Text testID="reviews" fontWeight='bold'>{count(item.reviewCount)}</Text>
                 <Text>Reviews</Text>
             </View>
             <View>
-                <Text fontWeight='bold'>{count(item.ratingAverage)}</Text>
+                <Text testID="rating" fontWeight='bold'>{count(item.ratingAverage)}</Text>
                 <Text>Rating</Text>
             </View>
         </View>

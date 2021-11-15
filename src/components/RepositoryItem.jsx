@@ -6,7 +6,6 @@ import Avatar from './Avatar';
 import RepoInfo from './RepoInfo';
 import RepoStats from './RepoStats';
 
-
 const RepositoryItem = ({ item }) => {
   return (
     <View style={theme.container}>
