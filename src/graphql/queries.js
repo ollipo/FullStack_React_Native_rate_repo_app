@@ -28,3 +28,13 @@ query {
   }
 }
 `;
+
+export const REPOSITORY = gql`
+query repository($id: ID!){
+  repository(id: $id) {
+    id
+    fullName
+    url
+  }
+}
+`;

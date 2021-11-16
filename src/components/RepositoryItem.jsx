@@ -1,5 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
+import { useHistory } from 'react-router';
 
 import theme from '../theme';
 import Avatar from './Avatar';
@@ -7,8 +8,10 @@ import RepoInfo from './RepoInfo';
 import RepoStats from './RepoStats';
 
 const RepositoryItem = ({ item }) => {
+  const history = useHistory();
   return (
-    <View style={theme.container}>
+    <Pressable onPress= {() => history.push(`/${item.id}`)} >
+      <View style={theme.container}>
       <View style={theme.repoItem}>
         <View style={theme.avatarAndRepoInfo}>
           <View>
@@ -18,11 +21,13 @@ const RepositoryItem = ({ item }) => {
             <RepoInfo item={item} />
           </View>
         </View>
-        <View>
-          <RepoStats item={item} /> 
-        </View> 
+          <View>
+            <RepoStats item={item} /> 
+          </View> 
+        </View>
       </View>
-    </View>
+    </Pressable>
+    
     
   );
 };

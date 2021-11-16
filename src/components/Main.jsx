@@ -14,6 +14,9 @@ const Main = () => {
         <Route exact path="/" >
           <RepositoryList />
         </Route>
+        <Route exact path="/:id" >
+          <RepositoryList />
+        </Route>
         <Route exact path="/signIn" >
           <SignIn />
         </Route>
