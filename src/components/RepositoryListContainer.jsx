@@ -22,13 +22,13 @@ const styles = StyleSheet.create({
 
       const routeRepo = repositoryNodes.find(n => n.id === id);
       console.log('routeRepo: ', routeRepo);
-  
+
       if(routeRepo) {
-        return (
-          <RepositoryRouteItem
-            key={routeRepo.id}
-            item={routeRepo}
-          />
+        return (         
+              <RepositoryRouteItem
+                key={routeRepo.id}
+                item={routeRepo}
+              />
         );
       }
 

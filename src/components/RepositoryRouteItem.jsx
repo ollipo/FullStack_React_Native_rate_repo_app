@@ -1,46 +1,124 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
-import { Pressable, View, Text,/* , Linking */ 
-Linking} from 'react-native';
+import { Pressable, View, Linking, FlatList, StyleSheet } from 'react-native';
 import { REPOSITORY } from '../graphql/queries';
+import format from 'date-fns/format';
 
 import theme from '../theme';
 import Avatar from './Avatar';
 import RepoInfo from './RepoInfo';
 import RepoStats from './RepoStats';
+import Text from './Text';
+
+const RepositoryInfo = ({ item, data }) => {
+    
+    console.log('item: ', item);
+
+    return (
+        <View style={theme.container}>
+          <View style={theme.repoItem}>
+            <View style={theme.avatarAndRepoInfo}>
+              <View>
+                <Avatar source={item.ownerAvatarUrl} />
+              </View>
+              <View>
+                <RepoInfo item={item} />
+              </View>
+            </View>
+              <View>
+                <RepoStats item={item} /> 
+              </View>
+              <Pressable  onPress= {() => Linking.openURL(data ? data.repository.url : null) }>
+                  <Text style={{
+                      color: 'white', 
+                      backgroundColor: theme.colors.primary, 
+                      alignSelf: 'center',
+                      flexGrow: '1',
+                      borderRadius: 5, 
+                      padding: 10
+                    }}>
+                      Open in GitHub
+                    </Text>
+                </Pressable>
+            </View>
+          </View>
+      );
+  };
+  
+const ReviewItem = ({ review }) => {
+    console.log('review item: ', review);
+    const date = review.node.createdAt;
+    const year = date.substring(0, 4);
+    const month = date.substring(5, 7)-1;
+    const day = date.substring(8, 10);
+    var result = format(new Date(year, month, day), 'dd.MM.yyyy');
+
+    return (
+        <View style={theme.container}>
+            <View style={theme.repoItem}>
+                <View style={theme.avatarAndRepoInfo} >
+                    <View style={{
+                        justifyContent: 'space-around',
+                        alignItems: 'center',
+                        flexDirection: 'row', 
+                        flexGrow: 0,
+                        margin: 10,
+                        width: 50,
+                        height: 50,
+                        borderColor: theme.colors.primary,
+                        borderWidth: 3,
+                        borderRadius: 50 / 2
+                    }}>
+                        <Text color='primary' fontWeight='bold' >{review.node.rating}</Text>
+                    </View>
+                    <View style={{
+                        display: 'flex',
+                        flexGrow: 0,
+                        margin: 10,
+                        justifyContent: 'space-around',
+                        maxWidth: '85%'
+                    }}>
+                        <Text fontWeight='bold' >
+                            {review.node.user.username}
+                        </Text>
+                        <Text >
+                            {result}
+                        </Text>
+                        <Text >
+                            {review.node.text}
+                        </Text>
+                    </View>
+                </View>
+            </View>
+        </View>
+  );
+};
 
 const RepositoryRouteItem = ({ item }) => {
-    const { data } = useQuery(REPOSITORY, { variables: { id: item.id }});
+    const { data, loading } = useQuery(REPOSITORY, { variables: { id: item.id } });
+    console.log('data: ', data?.repository.reviews);
+    
+    const styles = StyleSheet.create({
+        separator: {
+          height: 10,
+        },
+      });
+      
+      const ItemSeparator = () => <View style={styles.separator} />;
 
-  return (
-      <View style={theme.container}>
-      <View style={theme.repoItem}>
-        <View style={theme.avatarAndRepoInfo}>
-          <View>
-            <Avatar source={item.ownerAvatarUrl} />
-          </View>
-          <View>
-            <RepoInfo item={item} />
-          </View>
-        </View>
-          <View>
-            <RepoStats item={item} /> 
-          </View>
-          <Pressable onPress= {() => Linking.openURL(data ? data.repository.url : null) }>
-              <Text style={{
-                  color: 'white', 
-                  backgroundColor: theme.colors.primary, 
-                  alignSelf: 'center',
-                  flexGrow: 1,
-                  borderRadius: 5, 
-                  padding: 4
-                }}>
-                  Open in GitHub
-                </Text>
-            </Pressable>
-        </View>
-      </View>
-  );
+    if(!loading) {
+        return (
+            <FlatList
+                data={data.repository.reviews.edges}
+                renderItem={({ item }) => <ReviewItem review={item} />}
+                keyExtractor={(item) => item.node.id}
+                ItemSeparatorComponent={ItemSeparator}
+                ListHeaderComponent={() => <RepositoryInfo item={item} data={data} />}
+            />
+        );
+    }
+    return null;
+  
 };
 
 export default RepositoryRouteItem;
