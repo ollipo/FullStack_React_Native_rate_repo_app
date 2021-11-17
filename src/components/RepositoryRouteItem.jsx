@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
-import { Pressable, View, Linking, FlatList, StyleSheet } from 'react-native';
+import { Pressable, View, Linking, FlatList, StyleSheet, ScrollView } from 'react-native';
 import { REPOSITORY } from '../graphql/queries';
 import format from 'date-fns/format';
 
@@ -33,9 +33,11 @@ const RepositoryInfo = ({ item, data }) => {
                       color: 'white', 
                       backgroundColor: theme.colors.primary, 
                       alignSelf: 'center',
+                      width: '95%',
                       flexGrow: '1',
                       borderRadius: 5, 
-                      padding: 10
+                      padding: 10,
+                      textAlign: 'center'
                     }}>
                       Open in GitHub
                     </Text>
@@ -54,7 +56,7 @@ const ReviewItem = ({ review }) => {
     var result = format(new Date(year, month, day), 'dd.MM.yyyy');
 
     return (
-        <View style={theme.container}>
+            <View style={theme.container}>
             <View style={theme.repoItem}>
                 <View style={theme.avatarAndRepoInfo} >
                     <View style={{
@@ -90,12 +92,15 @@ const ReviewItem = ({ review }) => {
                     </View>
                 </View>
             </View>
-        </View>
+            </View>
   );
 };
 
 const RepositoryRouteItem = ({ item }) => {
-    const { data, loading } = useQuery(REPOSITORY, { variables: { id: item.id } });
+    const { data, loading } = useQuery(REPOSITORY, { 
+      fetchPolicy: 'cache-and-network',
+      variables: { id: item.id } 
+    });
     console.log('data: ', data?.repository.reviews);
     
     const styles = StyleSheet.create({
@@ -108,13 +113,16 @@ const RepositoryRouteItem = ({ item }) => {
 
     if(!loading) {
         return (
-            <FlatList
-                data={data.repository.reviews.edges}
-                renderItem={({ item }) => <ReviewItem review={item} />}
-                keyExtractor={(item) => item.node.id}
-                ItemSeparatorComponent={ItemSeparator}
-                ListHeaderComponent={() => <RepositoryInfo item={item} data={data} />}
-            />
+            <ScrollView>
+                <FlatList
+                    data={data.repository.reviews.edges}
+                    renderItem={({ item }) => <ReviewItem review={item} />}
+                    keyExtractor={(item) => item.node.id}
+                    ItemSeparatorComponent={ItemSeparator}
+                    ListHeaderComponent={() => <RepositoryInfo item={item} data={data} />}
+                />
+            </ScrollView>
+            
         );
     }
     return null;

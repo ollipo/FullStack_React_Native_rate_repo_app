@@ -86,9 +86,14 @@ const AppBar = () => {
             Repositories
           </Link>
           {authorizedUser ? (
-            <AppBarTab onPress={onSignOut}>Sign out</AppBarTab>
+            <View style={{ flexDirection: 'row'}}>
+              <Link to="/reviewForm" component={AppBarTab}>
+              Create a review
+              </Link>
+                <AppBarTab onPress={onSignOut}>Sign out</AppBarTab>
+              </View>
           ) : (
-            <Link to="/signin" component={AppBarTab}>
+            <Link to="/signIn" component={AppBarTab}>
               Sign in
             </Link>
           )}
