@@ -3,6 +3,7 @@ import { FlatList, View, StyleSheet } from 'react-native';
 import RepositoryItem from './RepositoryItem';
 import { useParams } from 'react-router-native';
 import RepositoryRouteItem from './RepositoryRouteItem';
+import SortingMenu from './SortingMenu';
 
 const styles = StyleSheet.create({
     separator: {
@@ -12,7 +13,7 @@ const styles = StyleSheet.create({
   
   const ItemSeparator = () => <View style={styles.separator} />;
   
-  const RepositoryListContainer = ({ repositories }) => {
+  const RepositoryListContainer = ({ repositories, setSortBy }) => {
     const id = useParams().id;
     console.log('id: ', id);
     // Get the nodes from the edges array
@@ -40,6 +41,7 @@ const styles = StyleSheet.create({
           renderItem={({ item }) => (
             <RepositoryItem item={item} />
           )}
+          ListHeaderComponent={() => <SortingMenu setSortBy={setSortBy} />}
         />
       );
   };
