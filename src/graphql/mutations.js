@@ -28,3 +28,20 @@ mutation createReview(
     }
   }
 `;
+
+export const SIGN_UP = gql`
+mutation createUser(
+  $username: String!
+  $password: String!)
+  {
+    createUser (
+    	user: {
+        username: $username
+        password: $password
+			}
+    ){
+    	username
+      createdAt
+    }
+  }
+`;
