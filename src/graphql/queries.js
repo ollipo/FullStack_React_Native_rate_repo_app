@@ -52,3 +52,23 @@ query repository($id: ID!){
   }
 }
 `;
+
+export const SEARCH_REPOSITORIES = gql`
+query repositories($keyword: String) {
+  repositories(searchKeyword: $keyword) {
+    edges {
+      node {
+        fullName
+        description
+        language
+        reviewCount
+        ratingAverage
+        forksCount
+        stargazersCount
+        ownerAvatarUrl
+        id
+      }
+    }
+  }
+}
+`;

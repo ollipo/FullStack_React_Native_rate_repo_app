@@ -1,9 +1,19 @@
 import React, {  useState, useEffect } from 'react';
 import {Picker} from '@react-native-picker/picker';
+import { StyleSheet } from 'react-native';
 
 const SortingMenu = ({ setSortBy }) => {
     const [selectedLanguage, setSelectedLanguage] = useState('');
 console.log('selectedLanguage: ', selectedLanguage);
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      paddingTop: 20,
+      alignItems: 'center',
+      fontFamily: 'Arial'
+    }
+  });
 
 useEffect(() => {
     setSortBy(selectedLanguage);
@@ -13,6 +23,7 @@ useEffect(() => {
 
 return  <Picker
             selectedValue={selectedLanguage}
+            style={styles.container}
             onValueChange={(itemValue) =>
                 setSelectedLanguage(itemValue)
         }>
