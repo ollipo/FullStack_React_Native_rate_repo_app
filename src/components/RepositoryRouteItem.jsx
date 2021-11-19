@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
-import { Pressable, View, Linking, FlatList, StyleSheet, ScrollView } from 'react-native';
+import { Pressable, View, Linking, FlatList, StyleSheet } from 'react-native';
 import { REPOSITORY } from '../graphql/queries';
 import format from 'date-fns/format';
 
@@ -97,7 +97,7 @@ const ReviewItem = ({ review }) => {
 };
 
 const RepositoryRouteItem = ({ item }) => {
-    const { data, loading } = useQuery(REPOSITORY, { 
+    const { data, loading, fetchMore } = useQuery(REPOSITORY, { 
       fetchPolicy: 'cache-and-network',
       variables: { id: item.id } 
     });
@@ -111,18 +111,34 @@ const RepositoryRouteItem = ({ item }) => {
       
       const ItemSeparator = () => <View style={styles.separator} />;
 
+      const handleFetchMore = () => {
+        console.log('handleFetchMore in repoRouteItem');
+        const canFetchMore = !loading && data?.repository.reviews.pageInfo.hasNextPage;
+        console.log('canFetchMore in repoRouteItem', canFetchMore);
+    
+        if (!canFetchMore) {
+          return;
+        }
+        console.log('fetches more repos in repoRouteItem');
+    
+        fetchMore({
+          variables: {
+            after: data.repository.reviews.endCursor
+          },
+        });
+      };
+
     if(!loading) {
         return (
-            <ScrollView>
-                <FlatList
-                    data={data.repository.reviews.edges}
-                    renderItem={({ item }) => <ReviewItem review={item} />}
-                    keyExtractor={(item) => item.node.id}
-                    ItemSeparatorComponent={ItemSeparator}
-                    ListHeaderComponent={() => <RepositoryInfo item={item} data={data} />}
-                />
-            </ScrollView>
-            
+          <FlatList
+              data={data.repository.reviews.edges}
+              renderItem={({ item }) => <ReviewItem review={item} />}
+              keyExtractor={(item) => item.node.id}
+              ItemSeparatorComponent={ItemSeparator}
+              ListHeaderComponent={() => <RepositoryInfo item={item} data={data} />}
+              onEndReached={() => handleFetchMore}
+              onEndReachedThreshold={0.5}
+          />
         );
     }
     return null;

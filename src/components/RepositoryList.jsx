@@ -5,9 +5,11 @@ import RepositoryListContainer from './RepositoryListContainer';
 const RepositoryList = () => {
   const [ sortBy, setSortBy ] = useState('');
   const [ sortValues, setSortValues ] = useState({});
+  const [ keyword, setKeyword ] = useState('');
   
   console.log('sortBy in repoLList: ', sortBy);
   console.log('sortValues in repoLList: ', sortValues);
+  console.log('keyword in repoLList: ', keyword);
 
   useEffect(() => {
     console.log('in repolist useeffect: sortBy', sortBy);
@@ -34,10 +36,19 @@ const RepositoryList = () => {
   }, [sortBy]);
 
   
-  const { repositories } = useRepositories(sortValues);
+  const { repositories, fetchMore } = useRepositories({...sortValues, keyword});
 
+  const onEndReach = () => {
+    console.log('reached the end');
+    fetchMore();
+  };
 
-  return <RepositoryListContainer repositories={repositories} setSortBy={setSortBy} />;
+  return <RepositoryListContainer 
+            repositories={repositories} 
+            setSortBy={setSortBy}
+            setKeyword={setKeyword}
+            onEndReach={onEndReach}
+          />;
 };
 
 export default RepositoryList;

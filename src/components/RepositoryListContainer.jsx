@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React/* , { useEffect, useState } */ from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
 import RepositoryItem from './RepositoryItem';
 import { useParams } from 'react-router-native';
@@ -14,13 +14,18 @@ const styles = StyleSheet.create({
   
   const ItemSeparator = () => <View style={styles.separator} />;
   
-  const RepositoryListContainer = ({ repositories, setSortBy }) => {
-    const [filteredRepos, setFilteredRepos] = useState();
-    const [repositoryNodes, setRepositoryNodes] = useState(repositories);
+  const RepositoryListContainer = ({
+    onEndReach, 
+    repositories, 
+    setSortBy,
+    setKeyword
+  }) => {
+    /* const [filteredRepos, setFilteredRepos] = useState();
+    const [repositoryNodes, setRepositoryNodes] = useState(repositories); */
     const id = useParams().id;
     console.log('repositories in container: ', repositories);
 
-    useEffect(() => {
+    /* useEffect(() => {
       console.log('repositories in useE in container: ', repositories?.edges?.length);
     console.log('filteredrepositories in useE in container: ', filteredRepos?.repositories.edges?.length);
     console.log(filteredRepos?.repositories.edges.length !== repositories?.edges?.length);
@@ -37,10 +42,14 @@ const styles = StyleSheet.create({
           : [];
         setRepositoryNodes(repositoryNodes);
       }
-    }, [repositories, filteredRepos]);
+    }, [repositories, filteredRepos]); */
 
-    console.log('repositorynodes: ', repositoryNodes);
-    console.log('filteredrepositories: ', filteredRepos);
+    const repositoryNodes = repositories
+    ? repositories.edges.map(edge => edge.node)
+    : [];
+
+    console.log('repositorynodes: ', repositoryNodes);/* 
+    console.log('filteredrepositories: ', filteredRepos); */
 
       const routeRepo = repositoryNodes?.find(n => n.id === id);
       console.log('routeRepo: ', routeRepo);
@@ -48,7 +57,7 @@ const styles = StyleSheet.create({
       const renderHeader = () => {
         return (
           <View>
-            <RepositoryFilterInput setFilteredRepos={setFilteredRepos}/>
+            <RepositoryFilterInput setKeyword={setKeyword}/>
             <SortingMenu setSortBy={setSortBy} />
           </View>
         );
@@ -72,6 +81,8 @@ const styles = StyleSheet.create({
             <RepositoryItem item={item} />
           )}
           ListHeaderComponent={renderHeader()}
+          onEndReached={onEndReach}
+          onEndReachedThreshold={0.5}
         />
       );
   };
