@@ -4,7 +4,6 @@ import { StyleSheet } from 'react-native';
 
 const SortingMenu = ({ setSortBy }) => {
     const [selectedLanguage, setSelectedLanguage] = useState('');
-console.log('selectedLanguage: ', selectedLanguage);
 
 const styles = StyleSheet.create({
     container: {
@@ -16,7 +15,6 @@ const styles = StyleSheet.create({
 
 useEffect(() => {
     setSortBy(selectedLanguage);
-    console.log('in sortingmenu useeffect');
   }, [selectedLanguage]);
 
 

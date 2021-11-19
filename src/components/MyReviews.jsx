@@ -1,50 +1,12 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
-import { Pressable, View, Linking, FlatList, StyleSheet } from 'react-native';
-import { REPOSITORY } from '../graphql/queries';
+import { View, FlatList, StyleSheet } from 'react-native';
 import format from 'date-fns/format';
+import { GET_AUTH_USER } from '../graphql/queries';
 
 import theme from '../theme';
-import Avatar from './Avatar';
-import RepoInfo from './RepoInfo';
-import RepoStats from './RepoStats';
 import Text from './Text';
 
-const RepositoryInfo = ({ item, data }) => {
-
-    return (
-        <View style={theme.container}>
-          <View style={theme.repoItem}>
-            <View style={theme.avatarAndRepoInfo}>
-              <View>
-                <Avatar source={item.ownerAvatarUrl} />
-              </View>
-              <View>
-                <RepoInfo item={item} />
-              </View>
-            </View>
-              <View>
-                <RepoStats item={item} /> 
-              </View>
-              <Pressable  onPress= {() => Linking.openURL(data ? data.repository.url : null) }>
-                  <Text style={{
-                      color: 'white', 
-                      backgroundColor: theme.colors.primary, 
-                      alignSelf: 'center',
-                      width: '95%',
-                      flexGrow: '1',
-                      borderRadius: 5, 
-                      padding: 10,
-                      textAlign: 'center'
-                    }}>
-                      Open in GitHub
-                    </Text>
-                </Pressable>
-            </View>
-          </View>
-      );
-  };
-  
 const ReviewItem = ({ review }) => {
     const date = review.node.createdAt;
     const year = date.substring(0, 4);
@@ -93,11 +55,14 @@ const ReviewItem = ({ review }) => {
   );
 };
 
-const RepositoryRouteItem = ({ item }) => {
-    const { data, loading, fetchMore } = useQuery(REPOSITORY, { 
-      fetchPolicy: 'cache-and-network',
-      variables: { id: item.id } 
-    });
+const MyReviews = () => {
+    const { data, loading } = useQuery(GET_AUTH_USER, {
+        fetchPolicy: 'cache-and-network',
+        variables: {includeReviews: true}
+        });
+      
+    const reviews = data ? data.authorizedUser.reviews.edges : undefined;
+    
     
     const styles = StyleSheet.create({
         separator: {
@@ -107,30 +72,13 @@ const RepositoryRouteItem = ({ item }) => {
       
       const ItemSeparator = () => <View style={styles.separator} />;
 
-      const handleFetchMore = () => {
-        const canFetchMore = !loading && data?.repository.reviews.pageInfo.hasNextPage;
-    
-        if (!canFetchMore) {
-          return;
-        }
-    
-        fetchMore({
-          variables: {
-            after: data.repository.reviews.endCursor
-          },
-        });
-      };
-
     if(!loading) {
         return (
           <FlatList
-              data={data.repository.reviews.edges}
+              data={reviews}
               renderItem={({ item }) => <ReviewItem review={item} />}
               keyExtractor={(item) => item.node.id}
               ItemSeparatorComponent={ItemSeparator}
-              ListHeaderComponent={() => <RepositoryInfo item={item} data={data} />}
-              onEndReached={() => handleFetchMore}
-              onEndReachedThreshold={0.5}
           />
         );
     }
@@ -138,4 +86,4 @@ const RepositoryRouteItem = ({ item }) => {
   
 };
 
-export default RepositoryRouteItem;
+export default MyReviews;

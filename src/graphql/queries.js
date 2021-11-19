@@ -27,10 +27,31 @@ query repositories($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirec
 `;
 
 export const GET_AUTH_USER = gql`
-query {
+query getAuthorizedUser($includeReviews: Boolean = false) {
   authorizedUser {
     id
     username
+    reviews @include(if: $includeReviews) {
+      totalCount
+      edges {
+        node {
+          rating
+          user {
+            username
+          }
+          createdAt
+          text
+          repository {
+            description
+            name
+          }
+        }
+        cursor
+      }
+      pageInfo {
+        hasNextPage
+      }
+    }
   }
 }
 `;
@@ -38,6 +59,7 @@ query {
 export const REPOSITORY = gql`
 query repository($id: ID!, $after: String){
   repository(id: $id) {
+    url
     id
     fullName
     reviews(first: 3, after: $after) {
@@ -65,23 +87,3 @@ query repository($id: ID!, $after: String){
   }
 }
 `;
-
-/* export const SEARCH_REPOSITORIES = gql`
-query repositories($keyword: String) {
-  repositories(searchKeyword: $keyword) {
-    edges {
-      node {
-        fullName
-        description
-        language
-        reviewCount
-        ratingAverage
-        forksCount
-        stargazersCount
-        ownerAvatarUrl
-        id
-      }
-    }
-  }
-}
-`; */

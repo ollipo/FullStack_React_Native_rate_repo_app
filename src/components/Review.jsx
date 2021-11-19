@@ -3,9 +3,6 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useHistory } from 'react-router-native';
 
-/* import useSignIn from '../hooks/useSignIn'; *//* 
-import useAuthStorage from '../hooks/useAuthStorage';
-import { useApolloClient } from '@apollo/client'; */
 import ReviewForm from './ReviewForm';
 import useReview from '../hooks/useReview';
 
@@ -37,18 +34,11 @@ const validationSchema = yup.object().shape({
 const Review = () => {
   const [createReview] = useReview();
   const history = useHistory();
-  /* const authStorage = useAuthStorage();
-  const apolloClient = useApolloClient(); */
 
   const onSubmit = async (values) => {
-    console.log('values in review onsubmit: ', values);
     const { ownerName, repositoryName, rating, text } = values;
     try {
       const { data } = await createReview({ ownerName, repositoryName, rating, text });
-      console.log('data in review: ', data);
-      /* await authStorage.setAccessToken(data.authorize.accessToken);
-      apolloClient.resetStore();
-      console.log('token: ', await authStorage.getAccessToken()); */
         
       history.push(`/${data.createReview.repositoryId}`);
       

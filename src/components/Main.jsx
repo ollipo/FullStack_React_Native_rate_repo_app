@@ -7,9 +7,9 @@ import AppBar from './AppBar';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Review from './Review';
+import MyReviews from './MyReviews';
 
 const Main = () => {
-  console.log('main');
   return (
     <View>
       <AppBar/>
@@ -18,6 +18,7 @@ const Main = () => {
         <Route path="/signIn" component={SignIn} />
         <Route path="/signUp" component={SignUp} />
         <Route path="/reviewForm" component={Review} />
+        <Route path="/myReviews" component={MyReviews} />
         <Route path="/:id" component={RepositoryList} />
         <Redirect to="/" />
       </Switch>

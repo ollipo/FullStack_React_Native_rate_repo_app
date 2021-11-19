@@ -6,13 +6,8 @@ const RepositoryList = () => {
   const [ sortBy, setSortBy ] = useState('');
   const [ sortValues, setSortValues ] = useState({});
   const [ keyword, setKeyword ] = useState('');
-  
-  console.log('sortBy in repoLList: ', sortBy);
-  console.log('sortValues in repoLList: ', sortValues);
-  console.log('keyword in repoLList: ', keyword);
 
   useEffect(() => {
-    console.log('in repolist useeffect: sortBy', sortBy);
     switch (sortBy) {
       case 'latest':
         setSortValues({

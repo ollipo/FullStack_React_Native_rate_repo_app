@@ -36,7 +36,6 @@ const SignUp = () => {
   const history = useHistory();
 
   const onSubmit = async (values) => {
-      console.log('values in onSubmit: ', values);
     const { username, password } = values;
     try {
       await signUp({ username, password });

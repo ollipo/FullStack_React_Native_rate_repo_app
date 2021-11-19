@@ -1,4 +1,4 @@
-import React/* , { useEffect, useState } */ from 'react';
+import React from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
 import RepositoryItem from './RepositoryItem';
 import { useParams } from 'react-router-native';
@@ -20,39 +20,15 @@ const styles = StyleSheet.create({
     setSortBy,
     setKeyword
   }) => {
-    /* const [filteredRepos, setFilteredRepos] = useState();
-    const [repositoryNodes, setRepositoryNodes] = useState(repositories); */
-    const id = useParams().id;
-    console.log('repositories in container: ', repositories);
 
-    /* useEffect(() => {
-      console.log('repositories in useE in container: ', repositories?.edges?.length);
-    console.log('filteredrepositories in useE in container: ', filteredRepos?.repositories.edges?.length);
-    console.log(filteredRepos?.repositories.edges.length !== repositories?.edges?.length);
-      if(filteredRepos?.repositories.edges.length !== repositories?.edges?.length) {
-        console.log('filteredRepos in useEffect; ', filteredRepos);
-        const repositoryNodes = filteredRepos?.repositories.edges
-          ? filteredRepos.repositories.edges.map(edge => edge.node)
-          : [];
-      setRepositoryNodes(repositoryNodes);
-      } else {
-        console.log('repositories in useEffect; ', repositories);
-        const repositoryNodes = repositories
-          ? repositories.edges.map(edge => edge.node)
-          : [];
-        setRepositoryNodes(repositoryNodes);
-      }
-    }, [repositories, filteredRepos]); */
+    const id = useParams().id;
 
     const repositoryNodes = repositories
     ? repositories.edges.map(edge => edge.node)
     : [];
 
-    console.log('repositorynodes: ', repositoryNodes);/* 
-    console.log('filteredrepositories: ', filteredRepos); */
 
       const routeRepo = repositoryNodes?.find(n => n.id === id);
-      console.log('routeRepo: ', routeRepo);
 
       const renderHeader = () => {
         return (
